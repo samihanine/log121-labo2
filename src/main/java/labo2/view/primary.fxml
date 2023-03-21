@@ -12,6 +12,9 @@
          <Menu text="File">
             <MenuItem text="Open" onAction="#loadImage" />
          </Menu>
+         <Menu text="Edit">
+            <MenuItem text="Undo" onAction="#undo" />
+         </Menu>
       </MenuBar>
    </top>
    <center>
