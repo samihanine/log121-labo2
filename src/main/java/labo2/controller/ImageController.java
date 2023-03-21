@@ -10,7 +10,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
-import labo2.model.FileModel;
 import labo2.model.ImageModel;
 import labo2.model.TranslationModel;
 import labo2.model.ZoomModel;
@@ -78,7 +77,6 @@ public class ImageController {
                 model.getZoomModel().setZoom(1.0);
                 model.getTranslationModel().setTranslateX(0.0);
                 model.getTranslationModel().setTranslateY(0.0);
-                model.setFileModel(new FileModel(selectedFile.getPath())); // set file model
                 syncImageViewWithModel(imageView, model);
             }
         }
