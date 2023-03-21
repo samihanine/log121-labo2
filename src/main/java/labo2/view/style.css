@@ -1,53 +1,54 @@
-.primary {
+/* Base */
+.root {
+  -fx-font-family: "Segoe UI", "Arial", sans-serif;
+  -fx-base: #c2fff2;
+  -fx-background-color: -fx-base;
+}
+
+/* MenuBar */
+.MenuBar {
+  -fx-background-color: #3c3f41;
+}
+
+.MenuBar .label {
+  -fx-text-fill: white;
+}
+
+.MenuBar .menu {
+  -fx-padding: 0 10px;
+}
+
+.MenuBar .menu-item {
+  -fx-background-color: #3c3f41;
+  -fx-text-fill: white;
+}
+
+.MenuBar .menu-item:focused {
+  -fx-background-color: #5a6268;
+}
+
+/* GridPane */
+.GridPane {
   -fx-background-color: #f0f0f0;
 }
 
-#thumbnailImageView {
-  -fx-border-color: black;
-  -fx-border-width: 1px;
-}
-
-Button,
-Slider {
-  -fx-background-color: #e0e0e0;
-}
-
-TextField {
+/* ImageView */
+.ImageView {
+  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 10, 0, 0, 5);
   -fx-background-color: white;
-  -fx-border-color: #c0c0c0;
+  -fx-border-color: #ccc;
   -fx-border-width: 1px;
-}
-
-HBox,
-VBox {
   -fx-padding: 10px;
-  -fx-alignment: center;
 }
 
-HBox > Button,
-HBox > TextField {
-  -fx-padding: 5px;
+/* Customized ScrollPane for zoom and pan functionality */
+.ScrollPane {
+  -fx-background-color: #f0f0f0;
+  -fx-border-color: #ccc;
+  -fx-border-width: 1px;
+  -fx-padding: 10px;
 }
 
-VBox > Button,
-VBox > Slider {
-  -fx-padding: 5px;
-}
-
-HBox > Slider {
-  -fx-padding: 0 5px;
-}
-
-Menu,
-MenuItem {
-  -fx-font-size: 12pt;
-}
-
-MenuBar,
-MenuBar > Menu {
-  -fx-background-color: #e0e0e0;
-}
-
-MenuBar > Menu > MenuItem {
-  -fx-background-color: white;
+.ScrollPane .viewport {
+  -fx-background-color: #f0f0f0;
 }

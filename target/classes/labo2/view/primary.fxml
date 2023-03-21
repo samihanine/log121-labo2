@@ -15,7 +15,13 @@
       </MenuBar>
    </top>
    <center>
-      <ImageView fx:id="imageView" fitHeight="400.0" fitWidth="600.0" pickOnBounds="true"
-         preserveRatio="true" />
+      <GridPane hgap="10" vgap="10">
+         <ImageView fx:id="imageView1" fitHeight="600.0" fitWidth="250.0" pickOnBounds="true"
+            preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+         <ImageView fx:id="imageView2" fitHeight="600.0" fitWidth="250.0" pickOnBounds="true"
+            preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+         <ImageView fx:id="imageView3" fitHeight="600.0" fitWidth="250.0" pickOnBounds="true"
+            preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+      </GridPane>
    </center>
 </BorderPane>
