@@ -21,6 +21,12 @@ import labo2.observer.Observer;
 import labo2.singleton.CommandManager;
 import labo2.observer.Observable;
 
+/**
+ * The ImageController class handles user input and updates the graphical
+ * representation of the image.
+ * It implements the Observer interface to update the views when the models are
+ * changed.
+ */
 public class ImageController implements Observer {
 
     @FXML
@@ -44,6 +50,11 @@ public class ImageController implements Observer {
     private double lastX;
     private double lastY;
 
+    /**
+     * Initializes the ImageView objects.
+     *
+     * @param imageViews the ImageView objects to initialize
+     */
     private void initializeImageViews(ImageView... imageViews) {
         for (ImageView imageView : imageViews) {
             imageView.setPreserveRatio(true);
@@ -62,16 +73,22 @@ public class ImageController implements Observer {
             imageModelMap.put(imageView, new ImageModel());
 
             ImageModel model = imageModelMap.get(imageView);
-            model.getZoomModel().addObserver(this); // Ajoutez cette ligne
-            model.getTranslationModel().addObserver(this); // Ajoutez cette ligne
+            model.getZoomModel().addObserver(this);
+            model.getTranslationModel().addObserver(this);
         }
     }
 
+    /**
+     * Initializes the controller.
+     */
     @FXML
     public void initialize() {
         initializeImageViews(imageView2, imageView3);
     }
 
+    /**
+     * Loads an image and sets it to the ImageView objects.
+     */
     public void loadImage() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Image File");
@@ -96,6 +113,11 @@ public class ImageController implements Observer {
         }
     }
 
+    /**
+     * Handles the scroll event to zoom in and out of the image.
+     *
+     * @param event the scroll event
+     */
     private void handleScroll(ScrollEvent event) {
         ImageView imageView = (ImageView) event.getSource();
         ImageModel model = imageModelMap.get(imageView);
@@ -113,6 +135,11 @@ public class ImageController implements Observer {
         event.consume();
     }
 
+    /**
+     * Handles the mouse pressed event to start dragging the image.
+     *
+     * @param event the mouse pressed event
+     */
     private void handleMousePressed(javafx.scene.input.MouseEvent event) {
         ImageView imageView = (ImageView) event.getSource();
         ImageModel model = imageModelMap.get(imageView);
@@ -121,6 +148,11 @@ public class ImageController implements Observer {
         lastY = event.getSceneY() - translationModel.getTranslateY();
     }
 
+    /**
+     * Handles the mouse dragged event to move the image.
+     *
+     * @param event the mouse dragged event
+     */
     private void handleMouseDragged(javafx.scene.input.MouseEvent event) {
         ImageView imageView = (ImageView) event.getSource();
         ImageModel model = imageModelMap.get(imageView);
@@ -133,19 +165,29 @@ public class ImageController implements Observer {
         commands.push(translateCommand);
     }
 
+    /**
+     * Undoes the last command executed on ImageView2.
+     */
     @FXML
     public void undoImageView2() {
         commandManager.undoCommand();
     }
 
+    /**
+     * Undoes the last command executed on ImageView3.
+     */
     @FXML
     public void undoImageView3() {
         commandManager.undoCommand();
     }
 
+    /**
+     * Updates the views when a model is changed.
+     *
+     * @param o the Observable object that changed
+     */
     @Override
     public void update(Observable o) {
-        // Mettez à jour la vue en fonction des changements dans les modèles
         for (ImageView imageView : imageModelMap.keySet()) {
             ImageModel model = imageModelMap.get(imageView);
             if (o == model.getZoomModel() || o == model.getTranslationModel()) {
