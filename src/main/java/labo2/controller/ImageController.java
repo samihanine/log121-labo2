@@ -13,8 +13,9 @@ import javafx.stage.FileChooser;
 import labo2.model.ImageModel;
 import labo2.model.TranslationModel;
 import labo2.model.ZoomModel;
+import labo2.observer.*;
 
-public class ImageController {
+public class ImageController implements Observer {
 
     @FXML
     private ImageView imageView1;
@@ -49,6 +50,10 @@ public class ImageController {
                 imageView.setMouseTransparent(false);
             });
             imageModelMap.put(imageView, new ImageModel());
+
+            ImageModel model = imageModelMap.get(imageView);
+            model.getZoomModel().addObserver(this); // Ajoutez cette ligne
+            model.getTranslationModel().addObserver(this); // Ajoutez cette ligne
         }
     }
 
@@ -77,7 +82,6 @@ public class ImageController {
                 model.getZoomModel().setZoom(1.0);
                 model.getTranslationModel().setTranslateX(0.0);
                 model.getTranslationModel().setTranslateY(0.0);
-                syncImageViewWithModel(imageView, model);
             }
         }
     }
@@ -92,7 +96,6 @@ public class ImageController {
             zoomFactor = 0.95;
         }
         zoomModel.setZoom(zoomModel.getZoom() * zoomFactor);
-        syncImageViewWithModel(imageView, model);
         event.consume();
     }
 
@@ -113,16 +116,6 @@ public class ImageController {
 
         translationModel.setTranslateX(deltaX);
         translationModel.setTranslateY(deltaY);
-        syncImageViewWithModel(imageView, model);
-    }
-
-    private void syncImageViewWithModel(ImageView imageView, ImageModel model) {
-        TranslationModel translationModel = model.getTranslationModel();
-        ZoomModel zoomModel = model.getZoomModel();
-        imageView.setTranslateX(translationModel.getTranslateX());
-        imageView.setTranslateY(translationModel.getTranslateY());
-        imageView.setScaleX(zoomModel.getZoom());
-        imageView.setScaleY(zoomModel.getZoom());
     }
 
     @FXML
@@ -132,7 +125,6 @@ public class ImageController {
         ZoomModel zoomModel = model.getZoomModel();
         translationModel.undo();
         zoomModel.undo();
-        syncImageViewWithModel(imageView2, model);
     }
 
     @FXML
@@ -142,7 +134,22 @@ public class ImageController {
         ZoomModel zoomModel = model.getZoomModel();
         translationModel.undo();
         zoomModel.undo();
-        syncImageViewWithModel(imageView3, model);
+    }
+
+    @Override
+    public void update(Observable o) {
+        // Mettez à jour la vue en fonction des changements dans les modèles
+        for (ImageView imageView : imageModelMap.keySet()) {
+            ImageModel model = imageModelMap.get(imageView);
+            if (o == model.getZoomModel() || o == model.getTranslationModel()) {
+                TranslationModel translationModel = model.getTranslationModel();
+                ZoomModel zoomModel = model.getZoomModel();
+                imageView.setTranslateX(translationModel.getTranslateX());
+                imageView.setTranslateY(translationModel.getTranslateY());
+                imageView.setScaleX(zoomModel.getZoom());
+                imageView.setScaleY(zoomModel.getZoom());
+            }
+        }
     }
 
 }
