@@ -17,7 +17,9 @@ import labo2.command.ZoomCommand;
 import labo2.model.ImageModel;
 import labo2.model.TranslationModel;
 import labo2.model.ZoomModel;
-import labo2.observer.*;
+import labo2.observer.Observer;
+import labo2.singleton.CommandManager;
+import labo2.observer.Observable;
 
 public class ImageController implements Observer {
 
@@ -36,6 +38,8 @@ public class ImageController implements Observer {
     private Map<ImageView, ImageModel> imageModelMap = new HashMap<>();
 
     private Stack<Command> commands = new Stack<>();
+
+    private CommandManager commandManager = CommandManager.getInstance();
 
     private double lastX;
     private double lastY;
@@ -104,8 +108,7 @@ public class ImageController implements Observer {
 
         double newZoom = zoomModel.getZoom() * zoomFactor;
         Command zoomCommand = new ZoomCommand(zoomModel, newZoom);
-        zoomCommand.execute();
-        commands.push(zoomCommand);
+        commandManager.executeCommand(zoomCommand);
 
         event.consume();
     }
@@ -126,25 +129,18 @@ public class ImageController implements Observer {
         double deltaY = event.getSceneY() - lastY;
 
         Command translateCommand = new TranslationCommand(translationModel, deltaX, deltaY);
-        translateCommand.execute();
+        commandManager.executeCommand(translateCommand);
         commands.push(translateCommand);
     }
 
     @FXML
     public void undoImageView2() {
-        undoLastCommand(imageView2);
+        commandManager.undoCommand();
     }
 
     @FXML
     public void undoImageView3() {
-        undoLastCommand(imageView3);
-    }
-
-    private void undoLastCommand(ImageView imageView) {
-        if (!commands.isEmpty()) {
-            Command command = commands.pop();
-            command.undo();
-        }
+        commandManager.undoCommand();
     }
 
     @Override
