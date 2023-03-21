@@ -1,17 +1,19 @@
 package labo2.controller;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
+import labo2.model.FileModel;
 import labo2.model.ImageModel;
 import labo2.model.TranslationModel;
 import labo2.model.ZoomModel;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ImageController {
 
@@ -23,6 +25,9 @@ public class ImageController {
 
     @FXML
     private ImageView imageView3;
+
+    @FXML
+    private BorderPane root;
 
     private Map<ImageView, ImageModel> imageModelMap = new HashMap<>();
 
@@ -50,7 +55,7 @@ public class ImageController {
 
     @FXML
     public void initialize() {
-        initializeImageViews(imageView1, imageView2, imageView3);
+        initializeImageViews(imageView2, imageView3);
     }
 
     public void loadImage() {
@@ -66,11 +71,14 @@ public class ImageController {
             imageView1.setImage(image);
             imageView2.setImage(image);
             imageView3.setImage(image);
+
+            // Set file model for each image view
             for (ImageView imageView : imageModelMap.keySet()) {
                 ImageModel model = imageModelMap.get(imageView);
                 model.getZoomModel().setZoom(1.0);
                 model.getTranslationModel().setTranslateX(0.0);
                 model.getTranslationModel().setTranslateY(0.0);
+                model.setFileModel(new FileModel(selectedFile.getPath())); // set file model
                 syncImageViewWithModel(imageView, model);
             }
         }
@@ -119,14 +127,24 @@ public class ImageController {
         imageView.setScaleY(zoomModel.getZoom());
     }
 
-    public void undo() {
-        for (ImageView imageView : imageModelMap.keySet()) {
-            ImageModel model = imageModelMap.get(imageView);
-            TranslationModel translationModel = model.getTranslationModel();
-            ZoomModel zoomModel = model.getZoomModel();
-            translationModel.undo();
-            zoomModel.undo();
-            syncImageViewWithModel(imageView, model);
-        }
+    @FXML
+    public void undoImageView2() {
+        ImageModel model = imageModelMap.get(imageView2);
+        TranslationModel translationModel = model.getTranslationModel();
+        ZoomModel zoomModel = model.getZoomModel();
+        translationModel.undo();
+        zoomModel.undo();
+        syncImageViewWithModel(imageView2, model);
     }
+
+    @FXML
+    public void undoImageView3() {
+        ImageModel model = imageModelMap.get(imageView3);
+        TranslationModel translationModel = model.getTranslationModel();
+        ZoomModel zoomModel = model.getZoomModel();
+        translationModel.undo();
+        zoomModel.undo();
+        syncImageViewWithModel(imageView3, model);
+    }
+
 }

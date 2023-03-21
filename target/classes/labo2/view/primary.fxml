@@ -13,7 +13,12 @@
             <MenuItem text="Open" onAction="#loadImage" />
          </Menu>
          <Menu text="Edit">
-            <MenuItem text="Undo" onAction="#undo" />
+            <Menu text="View 2">
+               <MenuItem text="Undo" onAction="#undoImageView2" />
+            </Menu>
+            <Menu text="View 3">
+               <MenuItem text="Undo" onAction="#undoImageView3" />
+            </Menu>
          </Menu>
       </MenuBar>
    </top>
