@@ -1,0 +1,53 @@
+.primary {
+  -fx-background-color: #f0f0f0;
+}
+
+#thumbnailImageView {
+  -fx-border-color: black;
+  -fx-border-width: 1px;
+}
+
+Button,
+Slider {
+  -fx-background-color: #e0e0e0;
+}
+
+TextField {
+  -fx-background-color: white;
+  -fx-border-color: #c0c0c0;
+  -fx-border-width: 1px;
+}
+
+HBox,
+VBox {
+  -fx-padding: 10px;
+  -fx-alignment: center;
+}
+
+HBox > Button,
+HBox > TextField {
+  -fx-padding: 5px;
+}
+
+VBox > Button,
+VBox > Slider {
+  -fx-padding: 5px;
+}
+
+HBox > Slider {
+  -fx-padding: 0 5px;
+}
+
+Menu,
+MenuItem {
+  -fx-font-size: 12pt;
+}
+
+MenuBar,
+MenuBar > Menu {
+  -fx-background-color: #e0e0e0;
+}
+
+MenuBar > Menu > MenuItem {
+  -fx-background-color: white;
+}
