@@ -1,7 +1,7 @@
 /* Base */
 .root {
   -fx-font-family: "Segoe UI", "Arial", sans-serif;
-  -fx-base: #c2fff2;
+  -fx-base: #e5f7f7;
   -fx-background-color: -fx-base;
 }
 
@@ -36,12 +36,23 @@
 .ImageView {
   -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 10, 0, 0, 5);
   -fx-background-color: white;
+  -fx-border-color: #000;
+  -fx-border-width: 2px;
+  -fx-padding: 10px;
+}
+
+/* Customized ScrollPane for zoom and pan functionality */
+.ScrollPane {
+  -fx-background-color: #f0f0f0;
   -fx-border-color: #ccc;
   -fx-border-width: 1px;
   -fx-padding: 10px;
 }
 
-/* Customized ScrollPane for zoom and pan functionality */
+.ScrollPane .viewport {
+  -fx-background-color: #f0f0f0;
+}
+
 .ScrollPane {
   -fx-background-color: #f0f0f0;
   -fx-border-color: #ccc;

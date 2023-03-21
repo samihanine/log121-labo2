@@ -32,6 +32,9 @@ public class ImageController {
             imageView.setOnMouseReleased(event -> {
                 imageView.setMouseTransparent(false);
             });
+
+            imageView.setOnMousePressed(this::handleMousePressed);
+            imageView.setOnMouseDragged(this::handleMouseDragged);
         }
     }
 
@@ -71,8 +74,8 @@ public class ImageController {
 
     private void handleMousePressed(MouseEvent event) {
         ImageView imageView = (ImageView) event.getSource();
-        lastX = event.getSceneX();
-        lastY = event.getSceneY();
+        lastX = event.getSceneX() - imageView.getTranslateX();
+        lastY = event.getSceneY() - imageView.getTranslateY();
     }
 
     private void handleMouseDragged(MouseEvent event) {
@@ -80,10 +83,7 @@ public class ImageController {
         double deltaX = event.getSceneX() - lastX;
         double deltaY = event.getSceneY() - lastY;
 
-        imageView.setTranslateX(imageView.getTranslateX() + deltaX);
-        imageView.setTranslateY(imageView.getTranslateY() + deltaY);
-
-        lastX = event.getSceneX();
-        lastY = event.getSceneY();
+        imageView.setTranslateX(deltaX);
+        imageView.setTranslateY(deltaY);
     }
 }

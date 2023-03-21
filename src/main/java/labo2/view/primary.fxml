@@ -5,7 +5,7 @@
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
 
-<BorderPane fx:id="root" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17"
+<BorderPane fx:id="root" prefHeight="500.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17"
    xmlns:fx="http://javafx.com/fxml/1" fx:controller="labo2.controller.ImageController">
    <top>
       <MenuBar>
@@ -16,12 +16,30 @@
    </top>
    <center>
       <GridPane hgap="10" vgap="10">
-         <ImageView fx:id="imageView1" fitHeight="600.0" fitWidth="250.0" pickOnBounds="true"
-            preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-         <ImageView fx:id="imageView2" fitHeight="600.0" fitWidth="250.0" pickOnBounds="true"
-            preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-         <ImageView fx:id="imageView3" fitHeight="600.0" fitWidth="250.0" pickOnBounds="true"
-            preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+         <ScrollPane fitToHeight="false" fitToWidth="false" GridPane.columnIndex="0"
+            GridPane.rowIndex="0">
+            <content>
+               <AnchorPane>
+                  <ImageView fx:id="imageView1" pickOnBounds="true" preserveRatio="true" />
+               </AnchorPane>
+            </content>
+         </ScrollPane>
+         <ScrollPane fitToHeight="false" fitToWidth="false" GridPane.columnIndex="1"
+            GridPane.rowIndex="0">
+            <content>
+               <AnchorPane>
+                  <ImageView fx:id="imageView2" pickOnBounds="true" preserveRatio="true" />
+               </AnchorPane>
+            </content>
+         </ScrollPane>
+         <ScrollPane fitToHeight="false" fitToWidth="false" GridPane.columnIndex="2"
+            GridPane.rowIndex="0">
+            <content>
+               <AnchorPane>
+                  <ImageView fx:id="imageView3" pickOnBounds="true" preserveRatio="true" />
+               </AnchorPane>
+            </content>
+         </ScrollPane>
       </GridPane>
    </center>
 </BorderPane>
