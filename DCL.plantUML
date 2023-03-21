@@ -1,0 +1,85 @@
+@startuml DCL
+skinparam class {
+    BackgroundColor white
+    BorderColor black
+    ArrowColor black
+}
+
+package "labo2" {
+    class App
+}
+
+package "labo2.command" {
+    interface Command {
+        +execute(): void
+        +undo(): void
+    }
+    class TranslationCommand {
+        +execute(): void
+        +undo(): void
+    }
+    class ZoomCommand {
+        +execute(): void
+        +undo(): void
+    }
+
+    Command <|.. TranslationCommand
+    Command <|.. ZoomCommand
+}
+
+package "labo2.controller" {
+    class ImageController
+    class FileUploadController
+    class FileSaveController
+}
+
+package "labo2.model" {
+    class ImageModel
+    class TranslationModel
+    class ZoomModel
+}
+
+package "labo2.observer" {
+    interface Observable {
+        +attach(observer: Observer): void
+        +detach(observer: Observer): void
+        +notifyObservers(): void
+    }
+    interface Observer {
+        +update(): void
+    }
+}
+
+package "labo2.singleton" {
+    class CommandManager {
+        +getInstance(): CommandManager
+        +executeCommand(command: Command): void
+        +undoCommand(): void
+    }
+}
+
+App --> ImageController
+App --> FileUploadController
+App --> FileSaveController
+
+ImageController ..> Command
+ImageController ..> CommandManager
+ImageController ..> TranslationModel
+ImageController ..> ZoomModel
+ImageController ..> ImageModel
+ImageController ..> Observable
+ImageController --> Observer
+
+FileUploadController --> ImageModel
+FileSaveController --> ImageModel
+
+ImageModel --> Observable
+ImageModel --> TranslationModel
+ImageModel --> ZoomModel
+
+TranslationModel --> Observable
+ZoomModel --> Observable
+
+TranslationCommand --> TranslationModel
+ZoomCommand --> ZoomModel
+@enduml
