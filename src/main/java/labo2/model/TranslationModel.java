@@ -3,12 +3,10 @@ package labo2.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
-
-import labo2.command.Command;
 import labo2.observer.*;
 import javafx.geometry.Point2D;
 
-public class TranslationModel implements Observable, Command {
+public class TranslationModel implements Observable {
     // ...
     private List<Observer> observers = new ArrayList<>();
     private double translateX;
@@ -35,22 +33,6 @@ public class TranslationModel implements Observable, Command {
         Point2D point = new Point2D(translateX, translateY);
         translations.push(point);
         notifyObservers(); // Ajoutez cette ligne
-    }
-
-    @Override
-    public void execute() {
-        setTranslateX(translateX + 10);
-        setTranslateY(translateY + 10);
-    }
-
-    @Override
-    public void undo() {
-        if (!translations.isEmpty()) {
-            Point2D point = translations.pop();
-            translateX = point.getX();
-            translateY = point.getY();
-            notifyObservers(); // Ajoutez cette ligne
-        }
     }
 
     @Override

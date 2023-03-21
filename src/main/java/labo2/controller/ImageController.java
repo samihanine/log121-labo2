@@ -3,6 +3,7 @@ package labo2.controller;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
@@ -10,6 +11,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
+import labo2.command.Command;
+import labo2.command.TranslationCommand;
+import labo2.command.ZoomCommand;
 import labo2.model.ImageModel;
 import labo2.model.TranslationModel;
 import labo2.model.ZoomModel;
@@ -30,6 +34,8 @@ public class ImageController implements Observer {
     private BorderPane root;
 
     private Map<ImageView, ImageModel> imageModelMap = new HashMap<>();
+
+    private Stack<Command> commands = new Stack<>();
 
     private double lastX;
     private double lastY;
@@ -95,7 +101,12 @@ public class ImageController implements Observer {
         if (deltaY < 0) {
             zoomFactor = 0.95;
         }
-        zoomModel.setZoom(zoomModel.getZoom() * zoomFactor);
+
+        double newZoom = zoomModel.getZoom() * zoomFactor;
+        Command zoomCommand = new ZoomCommand(zoomModel, newZoom);
+        zoomCommand.execute();
+        commands.push(zoomCommand);
+
         event.consume();
     }
 
@@ -114,26 +125,26 @@ public class ImageController implements Observer {
         double deltaX = event.getSceneX() - lastX;
         double deltaY = event.getSceneY() - lastY;
 
-        translationModel.setTranslateX(deltaX);
-        translationModel.setTranslateY(deltaY);
+        Command translateCommand = new TranslationCommand(translationModel, deltaX, deltaY);
+        translateCommand.execute();
+        commands.push(translateCommand);
     }
 
     @FXML
     public void undoImageView2() {
-        ImageModel model = imageModelMap.get(imageView2);
-        TranslationModel translationModel = model.getTranslationModel();
-        ZoomModel zoomModel = model.getZoomModel();
-        translationModel.undo();
-        zoomModel.undo();
+        undoLastCommand(imageView2);
     }
 
     @FXML
     public void undoImageView3() {
-        ImageModel model = imageModelMap.get(imageView3);
-        TranslationModel translationModel = model.getTranslationModel();
-        ZoomModel zoomModel = model.getZoomModel();
-        translationModel.undo();
-        zoomModel.undo();
+        undoLastCommand(imageView3);
+    }
+
+    private void undoLastCommand(ImageView imageView) {
+        if (!commands.isEmpty()) {
+            Command command = commands.pop();
+            command.undo();
+        }
     }
 
     @Override
