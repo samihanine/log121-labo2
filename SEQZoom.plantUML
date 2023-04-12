@@ -1,0 +1,18 @@
+@startuml
+actor User
+
+!define CONTROLLER CommandController
+!define SINGLETON CommandManager
+!define COMMAND ZoomCommand
+
+User -> CONTROLLER : handleScroll(zoomModel, deltaY)
+CONTROLLER -> CONTROLLER : handleScroll(zoomModel, deltaY)
+CONTROLLER -> COMMAND : new ZoomCommand(zoomModel, newZoom)
+CONTROLLER -> SINGLETON : executeCommand(zoomCommand)
+SINGLETON -> COMMAND : execute()
+COMMAND -> ZoomModel : setZoom(newZoom)
+ZoomModel -> ZoomModel : notifyObservers()
+loop observer in observers
+    ZoomModel -> observer : update(zoomModel)
+end
+@enduml

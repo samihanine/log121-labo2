@@ -1,8 +1,11 @@
 @startuml DCL
 skinparam class {
-    BackgroundColor white
-    BorderColor black
-    ArrowColor black
+    BackgroundColor White
+    BorderColor Black
+    BorderThickness 1.5
+    FontName Roboto
+    FontSize 13
+    ArrowThickness 2
 }
 
 package "labo2" {
@@ -30,7 +33,8 @@ package "labo2.command" {
 package "labo2.controller" {
     class ImageController
     class FileUploadController
-    class FileSaveController
+    class MainController
+    class CommandController
 }
 
 package "labo2.model" {
@@ -58,20 +62,18 @@ package "labo2.singleton" {
     }
 }
 
-App --> ImageController
-App --> FileUploadController
-App --> FileSaveController
+App --> MainController
 
-ImageController ..> Command
-ImageController ..> CommandManager
-ImageController ..> TranslationModel
-ImageController ..> ZoomModel
+MainController --- ImageController
+MainController --- CommandController
+CommandController ..> Command
+CommandController ..> CommandManager
+CommandController ..> TranslationModel
+CommandController ..> ZoomModel
 ImageController ..> ImageModel
 ImageController ..> Observable
 ImageController --> Observer
-
 FileUploadController --> ImageModel
-FileSaveController --> ImageModel
 
 ImageModel --> Observable
 ImageModel --> TranslationModel
